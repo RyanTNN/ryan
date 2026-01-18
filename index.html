@@ -822,52 +822,52 @@ Trân trọng kính mời bạn đến dự lễ cưới của chúng mình</p>
             </div>
         </div>
     </div>
-<script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbw4PgoIlKsMiE-vtjnfDhY_IT5B5AdWoKh0rNZaoPliQCKXfNM8ht_iGELDky1hMGYy/exec';
-    const btnSend = document.getElementById('btn-send-comment');
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw4PgoIlKsMiE-vtjnfDhY_IT5B5AdWoKh0rNZaoPliQCKXfNM8ht_iGELDky1hMGYy/exec';
+        const btnSend = document.getElementById('btn-send-comment');
 
-    btnSend.addEventListener('click', e => {
-        e.preventDefault();
-        
-        // Lấy dữ liệu từ các ID đã đặt ở trên
-        const name = document.getElementById('form-name').value;
-        const presence = document.getElementById('form-presence').value;
-        const comment = document.getElementById('form-comment').value;
+        btnSend.addEventListener('click', e => {
+            e.preventDefault();
+            
+            // Lấy dữ liệu từ các ID đã đặt ở trên
+            const name = document.getElementById('form-name').value;
+            const presence = document.getElementById('form-presence').value;
+            const comment = document.getElementById('form-comment').value;
 
-        if (!name || !comment) {
-            alert('Vui lòng nhập đầy đủ tên và lời chúc!');
-            return;
-        }
+            if (!name || !comment) {
+                alert('Vui lòng nhập đầy đủ tên và lời chúc!');
+                return;
+            }
 
-        btnSend.disabled = true;
-        btnSend.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Đang gửi...';
+            btnSend.disabled = true;
+            btnSend.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Đang gửi...';
 
-        // Gửi dữ liệu tới Google Sheets
-        fetch(scriptURL, {
-            method: 'POST',
-            mode: 'no-cors', // Tránh lỗi CORS trên GitHub Pages/Vercel
-            body: JSON.stringify({
-                name: name,
-                presence: presence,
-                message: comment
-            }),
-        })
-        .then(() => {
-            alert('Cảm ơn bạn! Lời chúc đã được gửi thành công.');
-            // Xóa trắng form sau khi gửi
-            document.getElementById('form-name').value = '';
-            document.getElementById('form-comment').value = '';
-            btnSend.disabled = false;
-            btnSend.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Gửi';
-        })
-        .catch(error => {
-            console.error('Lỗi!', error.message);
-            alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-            btnSend.disabled = false;
-            btnSend.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Gửi';
+            // Gửi dữ liệu tới Google Sheets
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors', // Tránh lỗi CORS trên GitHub Pages/Vercel
+                body: JSON.stringify({
+                    name: name,
+                    presence: presence,
+                    message: comment
+                }),
+            })
+            .then(() => {
+                alert('Cảm ơn bạn! Lời chúc đã được gửi thành công.');
+                // Xóa trắng form sau khi gửi
+                document.getElementById('form-name').value = '';
+                document.getElementById('form-comment').value = '';
+                btnSend.disabled = false;
+                btnSend.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Gửi';
+            })
+            .catch(error => {
+                console.error('Lỗi!', error.message);
+                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+                btnSend.disabled = false;
+                btnSend.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Gửi';
+            });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>
