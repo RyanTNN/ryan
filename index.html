@@ -50,29 +50,6 @@
 }
 </style>
 
-<style>
- /* Hiệu ứng đập cho Logo */
-.heart-pulse {
-    animation: pulse-animation 1.5s infinite ease-in-out;
-    display: block;
-}
-
-@keyframes pulse-animation {
-    0% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
-    }
-    50% {
-        transform: scale(1.1); /* Phóng to 10% */
-        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); /* Thêm ánh sáng nhẹ xung quanh */
-    }
-    100% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
-    }
-}
-</style>
-
 <head>
     <!-- Common Tag -->
     <meta charset="utf-8">
@@ -823,52 +800,16 @@ Trân trọng kính mời bạn đến dự lễ cưới của chúng mình</p>
     <div class="loading-page" id="loading" style="opacity: 1;background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('./assets/images/Anh1 (1).webp'); background-size: contain; background-position: center; background-repeat: no-repeat; background-color: white;">
         <div class="d-flex justify-content-center align-items-center vh-100 overflow-y-auto">
             <div class="d-flex flex-column width-loading text-center">
-                <img src="./assets/images/placeholder.webp" data-src="./assets/images/logo.webp" fetchpriority="high" class="img-fluid mb-3 mx-auto object-fit-cover heart-pulse opacity-0" alt="icon" style="width: 8rem; height: 8rem;">
-                <div class="loading-text">
-                    <span class="gold-text">Đang chuẩn bị thiệp mời...</span>
-                    <div class="heart-beat">❤️</div>
+                <img src="./assets/images/placeholder.webp" data-src="./assets/images/logo.webp" fetchpriority="high" class="img-fluid mb-3 mx-auto object-fit-cover opacity-0" alt="icon" style="width: 8rem; height: 8rem;">
+                <div class="progress" role="progressbar" style="height: 0.5rem;" aria-label="progress bar">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
                 </div>
+                <small class="d-none mt-1 text-theme-auto" id="progress-info" style="font-size: 0.8rem;">Booting application...</small>
                 <noscript>
                     <small class="mt-1 text-danger">Sorry, this invitation requires javascript to work</small>
                 </noscript>
             </div>
         </div>
-        <div class="text-center position-fixed w-100" style="bottom: 8%; left: 0;">
-            <div class="d-flex flex-column">
-                <small class="text-secondary">from</small>
-                <small class="text-theme-auto"><i class="fa-brands fa-github me-1"></i>RyanNguyen</small>
-            </div>
-        </div>
-    </div>
-    <!-- <div class="loading-page" id="loading" style="opacity: 1; background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('./assets/images/Anh1-1.webp'); background-size: contain; background-position: center; background-repeat: no-repeat; background-color: white;">
-        <div class="d-flex justify-content-center align-items-center vh-100 overflow-y-auto">
-            <div class="d-flex flex-column width-loading text-center">
-                
-                <img src="./assets/images/logo.webp" 
-                    fetchpriority="high" 
-                    class="img-fluid mb-3 mx-auto object-fit-cover heart-pulse" 
-                    alt="icon" 
-                    style="width: 8rem; height: 8rem;">
-
-                <div class="loading-text">
-                    <span class="gold-text">Đang chuẩn bị thiệp mời...</span>
-                    <div class="heart-beat">❤️</div>
-                </div>
-
-                <noscript>
-                    <small class="mt-1 text-danger">Sorry, this invitation requires javascript to work</small>
-                </noscript>
-            </div>
-        </div> -->
-        
-        <div class="text-center position-fixed w-100" style="bottom: 8%; left: 0;">
-            <div class="d-flex flex-column">
-                <small class="text-secondary">from</small>
-                <small class="text-theme-auto"><i class="fa-brands fa-github me-1"></i>RyanNguyen</small>
-            </div>
-        </div>
-    </div>
-    
         <div class="text-center position-fixed w-100" style="bottom: 8%; left: 0;">
             <div class="d-flex flex-column">
                 <small class="text-secondary">from</small>
