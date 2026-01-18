@@ -838,7 +838,7 @@ Trân trọng kính mời bạn đến dự lễ cưới của chúng mình</p>
     <script>
     document.getElementById('btn-submit-google').addEventListener('click', async function() {
         // 1. Cấu hình
-        const scriptURL = 'https://script.google.com/macros/library/d/17vE8I1BwUPViD2TcoNtisoDHmLQm3XK2hR5x6-Rqq98jDQgQOnin-MPE/6'; // Dán URL từ Bước 1 vào đây
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby3oa2H2og-mY9oadZgocv7IypCpAkA6LBh4xDzGcMZNtkqYXb9qBFbfECzwcmL7p0/exec'; // Dán URL từ Bước 1 vào đây
         const btn = this;
         
         // 2. Lấy dữ liệu
@@ -885,6 +885,38 @@ Trân trọng kính mời bạn đến dự lễ cưới của chúng mình</p>
             btn.innerHTML = 'Thử lại';
         }
     });
+    // Hàm để tải và hiển thị lời chúc
+    async function loadWishes() {
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby3oa2H2og-mY9oadZgocv7IypCpAkA6LBh4xDzGcMZNtkqYXb9qBFbfECzwcmL7p0/exec'; // Dùng chung URL với hàm POST
+        const commentContainer = document.getElementById('comments');
+        
+        try {
+            const response = await fetch(scriptURL);
+            const data = await response.json();
+            
+            let html = '';
+            data.forEach(wish => {
+                html += `
+                    <div class="border rounded-4 shadow-sm p-3 mb-3 bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong class="text-primary">${wish.name}</strong>
+                            <small class="text-muted">${wish.presence}</small>
+                        </div>
+                        <p class="mb-0 mt-2">${wish.comment}</p>
+                    </div>`;
+            });
+            
+            commentContainer.innerHTML = html || '<p class="text-center">Chưa có lời chúc nào.</p>';
+        } catch (error) {
+            console.error('Không thể tải lời chúc:', error);
+        }
+    }
+
+    // Tự động tải lời chúc khi vừa mở trang web
+    window.onload = loadWishes;
+
+    // Sửa lại đoạn kết thúc của hàm gửi (POST) để load lại danh sách sau khi gửi xong
+    // Trong phần .then() của fetch cũ, hãy thêm dòng: loadWishes();
     </script>
 </body>
 
