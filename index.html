@@ -836,44 +836,54 @@ Trân trọng kính mời bạn đến dự lễ cưới của chúng mình</p>
     </div>
 
     <script>
-    document.getElementById('btn-gui-google').addEventListener('click', function() {
-        const scriptURL = 'URL_APP_SCRIPT_MOI_CUA_BAN'; // Link có đuôi /exec sau khi đã chỉnh "Anyone"
+    document.getElementById('btn-submit-google').addEventListener('click', async function() {
+        // 1. Cấu hình
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby3oa2H2og-mY9oadZgocv7IypCpAkA6LBh4xDzGcMZNtkqYXb9qBFbfECzwcmL7p0/exec'; // Dán URL từ Bước 1 vào đây
         const btn = this;
         
-        const name = document.getElementById('form-name').value;
-        const presence = document.getElementById('form-presence').options[document.getElementById('form-presence').selectedIndex].text;
-        const comment = document.getElementById('form-comment').value;
+        // 2. Lấy dữ liệu
+        const name = document.getElementById('form-name').value.trim();
+        const presenceEl = document.getElementById('form-presence');
+        const presence = presenceEl.options[presenceEl.selectedIndex].text;
+        const comment = document.getElementById('form-comment').value.trim();
 
-        if (name.trim() === "" || comment.trim() === "") {
-            alert("Vui lòng nhập tên và lời chúc!");
+        // 3. Kiểm tra dữ liệu trống
+        if (!name || !comment) {
+            alert("Vui lòng nhập tên và lời chúc của bạn.");
             return;
         }
 
+        // 4. Trạng thái đang gửi
         btn.disabled = true;
-        btn.innerHTML = "Đang gửi...";
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang gửi...';
 
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('presence', presence);
-        formData.append('comment', comment);
+        // 5. Gửi dữ liệu tới Google Sheets
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors', // Khắc phục lỗi bảo mật và lỗi Object trong Console
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    'name': name,
+                    'presence': presence,
+                    'comment': comment
+                })
+            });
 
-        fetch(scriptURL, { 
-            method: 'POST', 
-            body: formData,
-            mode: 'no-cors' // Quan trọng để tránh lỗi bảo mật trình duyệt
-        })
-        .then(() => {
+            // 6. Thành công
             alert('Cảm ơn bạn đã gửi lời chúc!');
             document.getElementById('form-name').value = '';
             document.getElementById('form-comment').value = '';
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Gửi';
-        })
-        .catch(error => {
+            
+        } catch (error) {
             console.error('Lỗi:', error);
+            alert('Có lỗi xảy ra. Tuy nhiên, bạn hãy kiểm tra Google Sheets xem dữ liệu đã vào chưa nhé!');
             btn.disabled = false;
             btn.innerHTML = 'Thử lại';
-        });
+        }
     });
     </script>
 </body>
