@@ -639,42 +639,58 @@ Trân trọng kính mời bạn đến dự lễ cưới của chúng mình</p>
                 </section>
 
                 <!-- Comment -->
-                <!-- <section class="bg-light-dark my-0 pb-0 pt-3" id="comment">
+                <section class="bg-light-dark my-0 pb-0 pt-3" id="comment">
                     <div class="container">
                         <div class="border rounded-5 shadow p-3 mb-2">
                             <h2 class="font-esthetic text-center mt-2 mb-4" style="font-size: 2.25rem;">Gửi lời chúc</h2>
 
                             <div class="mb-3">
                                 <label for="form-name" class="form-label my-1"><i class="fa-solid fa-person me-2"></i>Tên Khách Mời</label>
-                                <input dir="auto" type="text" class="form-control shadow-sm rounded-4" id="form-name" placeholder="Tên của bạn" required>
+                                <input dir="auto" type="text" class="form-control shadow-sm rounded-4" id="form-name" minlength="2" maxlength="50" placeholder="Tên của bạn" autocomplete="name" data-offline-disabled="false">
                             </div>
 
                             <div class="mb-3">
                                 <label for="form-presence" class="form-label my-1"><i class="fa-solid fa-person-circle-question me-2"></i>Bạn sẽ tới tham dự?</label>
-                                <select class="form-select shadow-sm rounded-4" id="form-presence">
-                                    <option value="Chưa xác nhận" selected>Xác nhận tham dự</option>
-                                    <option value="Có">&#9989; Có</option>
-                                    <option value="Không">&#10060; Không</option>
+                                <select class="form-select shadow-sm rounded-4" id="form-presence" autocomplete="off" data-offline-disabled="false">
+                                    <option value="0" selected>Xác nhận tham dự</option>
+                                    <option value="1">&#9989; Có</option>
+                                    <option value="2">&#10060; Không</option>
                                 </select>
                             </div>
 
-                            <div class="d-block mb-3">
+                            <div class="d-block mb-3" id="comment-form-default">
+                                <!-- <div id="information" class="alert alert-info alert-dismissible fade show rounded-4" role="alert">
+                                    <button type="button" class="btn-close rounded-4 p-3" data-bs-dismiss="alert" aria-label="Close" onclick="undangan.guest.closeInformation()"></button>
+
+                                    <p style="font-size: 1.5rem;">Bestieee!!!</p>
+                                    <p class="m-0">Cobain like seperti Instagram, dengan tap tap bagian komentarnya</p>
+                                    <hr class="my-2">
+                                    <p class="m-0">Sama bisa format text seperti Whatsapp lohh... cobainn jugaaa, makaciwww bestieee</p>
+                                </div> -->
+
                                 <label for="form-comment" class="form-label my-1"><i class="fa-solid fa-comment me-2"></i>Gửi lời chúc</label>
                                 <div class="position-relative">
-                                    <textarea dir="auto" class="form-control shadow-sm rounded-4" id="form-comment" rows="4" placeholder="Viết lời chúc" required></textarea>
+                                    <button class="btn btn-secondary btn-sm rounded-4 shadow-sm me-1 my-1 position-absolute bottom-0 end-0" onclick="undangan.comment.gif.open(undangan.comment.gif.default)" aria-label="button gif" data-offline-disabled="false"><i class="fa-solid fa-photo-film"></i></button>
+                                    <textarea dir="auto" class="form-control shadow-sm rounded-4" id="form-comment" rows="4" minlength="1" maxlength="1000" placeholder="Viết lời chúc" autocomplete="off" data-offline-disabled="false"></textarea>
                                 </div>
                             </div>
 
+                            <div class="d-none mb-3" id="gif-form-default"></div>
+
                             <div class="d-grid">
-                                <button class="btn btn-primary btn-sm rounded-4 shadow m-1" id="btn-send-comment">
+                                <button id="btn-submit-wish" class="btn btn-primary btn-sm rounded-4 shadow m-1" onclick="sendWishToGoogleSheets()">
                                     <i class="fa-solid fa-paper-plane me-2"></i>Gửi
                                 </button>
                             </div>
                         </div>
 
-                        <div class="py-3" id="comments-display"></div>
+                        <!-- Comments -->
+                        <div class="py-3" id="comments" data-loading="false"></div>
+
+                        <!-- Pagination -->
+                        <nav class="d-flex d-none justify-content-center mt-1 mb-0" id="pagination"></nav>
                     </div>
-                </section> -->
+                </section>
 
                 <!-- Wave Separator -->
                 <div class="svg-wrapper">
@@ -823,50 +839,51 @@ Trân trọng kính mời bạn đến dự lễ cưới của chúng mình</p>
         </div>
     </div>
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw4PgoIlKsMiE-vtjnfDhY_IT5B5AdWoKh0rNZaoPliQCKXfNM8ht_iGELDky1hMGYy/exec';
-        const btnSend = document.getElementById('btn-send-comment');
+    function sendWishToGoogleSheets() {
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyq_ecRGBY6NgkDaZ9IxzpXmrU9A5gEQ4JzvAyVZWYsgsHlYUVsKITPEpIt44cq-Ir8/exec'; // <--- DÁN LINK APP SCRIPT CỦA BẠN VÀO ĐÂY
+        const btn = document.getElementById('btn-submit-wish');
+        
+        // Lấy dữ liệu từ các ô input của template
+        const name = document.getElementById('form-name').value;
+        const presence = document.getElementById('form-presence').options[document.getElementById('form-presence').selectedIndex].text;
+        const comment = document.getElementById('form-comment').value;
 
-        btnSend.addEventListener('click', e => {
-            e.preventDefault();
+        if (!name || !comment) {
+            alert("Vui lòng nhập tên và lời chúc!");
+            return;
+        }
+
+        // Hiệu ứng đang gửi
+        btn.disabled = true;
+        btn.innerHTML = "Đang gửi...";
+
+        // Tạo form data để gửi
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('presence', presence);
+        formData.append('comment', comment);
+
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: formData 
+        })
+        .then(response => {
+            alert('Gửi lời chúc thành công!');
+            // Reset form sau khi gửi
+            document.getElementById('form-name').value = '';
+            document.getElementById('form-comment').value = '';
+            document.getElementById('form-presence').value = '0';
             
-            // Lấy dữ liệu từ các ID đã đặt ở trên
-            const name = document.getElementById('form-name').value;
-            const presence = document.getElementById('form-presence').value;
-            const comment = document.getElementById('form-comment').value;
-
-            if (!name || !comment) {
-                alert('Vui lòng nhập đầy đủ tên và lời chúc!');
-                return;
-            }
-
-            btnSend.disabled = true;
-            btnSend.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Đang gửi...';
-
-            // Gửi dữ liệu tới Google Sheets
-            fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors', // Tránh lỗi CORS trên GitHub Pages/Vercel
-                body: JSON.stringify({
-                    name: name,
-                    presence: presence,
-                    message: comment
-                }),
-            })
-            .then(() => {
-                alert('Cảm ơn bạn! Lời chúc đã được gửi thành công.');
-                // Xóa trắng form sau khi gửi
-                document.getElementById('form-name').value = '';
-                document.getElementById('form-comment').value = '';
-                btnSend.disabled = false;
-                btnSend.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Gửi';
-            })
-            .catch(error => {
-                console.error('Lỗi!', error.message);
-                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-                btnSend.disabled = false;
-                btnSend.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Gửi';
-            });
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Gửi';
+        })
+        .catch(error => {
+            console.error('Lỗi!', error.message);
+            alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Gửi';
         });
+    }
     </script>
 </body>
 
