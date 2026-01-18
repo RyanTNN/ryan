@@ -641,41 +641,44 @@ Trân trọng kính mời bạn đến dự lễ cưới của chúng mình</p>
                 <section class="bg-light-dark my-0 pb-0 pt-3" id="comment">
                     <div class="container">
                         <div class="border rounded-5 shadow p-3 mb-2">
-                            <h2 class="font-esthetic text-center mt-2 mb-4" style="font-size: 2.25rem;">Gửi lời chúc</h2>
+                            <h2 class="font-esthetic text-center mt-2 mb-4" style="font-size: 2.25rem;">Ucapan &amp; Doa</h2>
 
                             <div class="mb-3">
-                                <label for="form-name" class="form-label my-1"><i class="fa-solid fa-person me-2"></i>Tên Khách Mời</label>
-                                <input dir="auto" type="text" class="form-control shadow-sm rounded-4" id="form-name" minlength="2" maxlength="50" placeholder="Tên của bạn" autocomplete="name" data-offline-disabled="false">
+                                <label for="form-name" class="form-label my-1"><i class="fa-solid fa-person me-2"></i>Nama</label>
+                                <input dir="auto" type="text" class="form-control shadow-sm rounded-4" id="form-name" minlength="2" maxlength="50" placeholder="Isikan Nama Anda" autocomplete="name" data-offline-disabled="false">
                             </div>
 
                             <div class="mb-3">
-                                <label for="form-presence" class="form-label my-1"><i class="fa-solid fa-person-circle-question me-2"></i>Bạn sẽ tới tham dự?</label>
+                                <label for="form-presence" class="form-label my-1"><i class="fa-solid fa-person-circle-question me-2"></i>Presensi</label>
                                 <select class="form-select shadow-sm rounded-4" id="form-presence" autocomplete="off" data-offline-disabled="false">
-                                    <option value="0" selected>Xác nhận tham dự</option>
-                                    <option value="1">&#9989; Có</option>
-                                    <option value="2">&#10060; Không</option>
+                                    <option value="0" selected>Konfirmasi Presensi</option>
+                                    <option value="1">&#9989; Datang</option>
+                                    <option value="2">&#10060; Berhalangan</option>
                                 </select>
                             </div>
 
-                            <!-- <div class="d-block mb-3" id="comment-form-default">
+                            <div class="d-block mb-3" id="comment-form-default">
                                 <div id="information" class="alert alert-info alert-dismissible fade show rounded-4" role="alert">
-                                    <button type="button" id="btn-gui-google" class="btn btn-primary btn-sm rounded-4 shadow m-1">
-                                        <i class="fa-solid fa-paper-plane me-2"></i>Gửi lời chúc
-                                    </button>
+                                    <button type="button" class="btn-close rounded-4 p-3" data-bs-dismiss="alert" aria-label="Close" onclick="undangan.guest.closeInformation()"></button>
+
+                                    <p style="font-size: 1.5rem;">Bestieee!!!</p>
+                                    <p class="m-0">Cobain like seperti Instagram, dengan tap tap bagian komentarnya</p>
+                                    <hr class="my-2">
+                                    <p class="m-0">Sama bisa format text seperti Whatsapp lohh... cobainn jugaaa, makaciwww bestieee</p>
                                 </div>
 
-                                <label for="form-comment" class="form-label my-1"><i class="fa-solid fa-comment me-2"></i>Gửi lời chúc</label>
+                                <label for="form-comment" class="form-label my-1"><i class="fa-solid fa-comment me-2"></i>Ucapan &amp; Doa</label>
                                 <div class="position-relative">
                                     <button class="btn btn-secondary btn-sm rounded-4 shadow-sm me-1 my-1 position-absolute bottom-0 end-0" onclick="undangan.comment.gif.open(undangan.comment.gif.default)" aria-label="button gif" data-offline-disabled="false"><i class="fa-solid fa-photo-film"></i></button>
-                                    <textarea dir="auto" class="form-control shadow-sm rounded-4" id="form-comment" rows="4" minlength="1" maxlength="1000" placeholder="Viết lời chúc" autocomplete="off" data-offline-disabled="false"></textarea>
+                                    <textarea dir="auto" class="form-control shadow-sm rounded-4" id="form-comment" rows="4" minlength="1" maxlength="1000" placeholder="Tulis Ucapan dan Doa" autocomplete="off" data-offline-disabled="false"></textarea>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <div class="d-none mb-3" id="gif-form-default"></div>
 
                             <div class="d-grid">
-                                <button id="btn-submit-wish" class="btn btn-primary btn-sm rounded-4 shadow m-1" onclick="sendWishToGoogleSheets()">
-                                    <i class="fa-solid fa-paper-plane me-2"></i>Gửi
+                                <button class="btn btn-primary btn-sm rounded-4 shadow m-1" onclick="undangan.comment.send(this)" data-offline-disabled="false">
+                                    <i class="fa-solid fa-paper-plane me-2"></i>Send
                                 </button>
                             </div>
                         </div>
@@ -834,87 +837,6 @@ Trân trọng kính mời bạn đến dự lễ cưới của chúng mình</p>
             </div>
         </div>
     </div>
-
-    <script>
-    document.getElementById('btn-submit-google').addEventListener('click', async function() {
-        // 1. Cấu hình
-        const scriptURL = 'https://script.google.com/macros/s/AKfycby3oa2H2og-mY9oadZgocv7IypCpAkA6LBh4xDzGcMZNtkqYXb9qBFbfECzwcmL7p0/exec'; // Dán URL từ Bước 1 vào đây
-        const btn = this;
-        
-        // 2. Lấy dữ liệu
-        const name = document.getElementById('form-name').value.trim();
-        const presenceEl = document.getElementById('form-presence');
-        const presence = presenceEl.options[presenceEl.selectedIndex].text;
-        const comment = document.getElementById('form-comment').value.trim();
-
-        // 3. Kiểm tra dữ liệu trống
-        if (!name || !comment) {
-            alert("Vui lòng nhập tên và lời chúc của bạn.");
-            return;
-        }
-
-        // 4. Trạng thái đang gửi
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang gửi...';
-
-        // 5. Gửi dữ liệu tới Google Sheets
-        try {
-            await fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors', // Khắc phục lỗi bảo mật và lỗi Object trong Console
-                cache: 'no-cache',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({
-                    'name': name,
-                    'presence': presence,
-                    'comment': comment
-                })
-            });
-
-            // 6. Thành công
-            alert('Cảm ơn bạn đã gửi lời chúc!');
-            document.getElementById('form-name').value = '';
-            document.getElementById('form-comment').value = '';
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Gửi';
-            
-        } catch (error) {
-            console.error('Lỗi:', error);
-            alert('Có lỗi xảy ra. Tuy nhiên, bạn hãy kiểm tra Google Sheets xem dữ liệu đã vào chưa nhé!');
-            btn.disabled = false;
-            btn.innerHTML = 'Thử lại';
-        }
-    });
-    // Hàm để tải và hiển thị lời chúc
-    async function loadWishes() {
-        const scriptURL = 'https://script.google.com/macros/s/AKfycby3oa2H2og-mY9oadZgocv7IypCpAkA6LBh4xDzGcMZNtkqYXb9qBFbfECzwcmL7p0/exec'; // Dùng chung URL với hàm POST
-        const commentContainer = document.getElementById('comments');
-        
-            try {
-            const response = await fetch(scriptURL);
-            const data = await response.json();
-            const container = document.getElementById('comments');
-            
-            let nộiDung = '';
-            data.forEach(item => {
-                nộiDung += `
-                    <div class="border rounded-4 shadow-sm p-3 mb-3 bg-white text-dark">
-                        <div class="d-flex justify-content-between">
-                            <strong>${item.name}</strong>
-                            <span class="badge bg-info text-dark">${item.presence}</span>
-                        </div>
-                        <div class="mt-2">${item.comment}</div>
-                    </div>`;
-            });
-            container.innerHTML = nộiDung;
-        } catch (e) {
-            console.log("Chưa có lời chúc hoặc lỗi kết nối.");
-        }
-    }
-
-    // Gọi hàm này khi trang web tải xong
-    window.addEventListener('DOMContentLoaded', loadWishes);
-    </script>
 </body>
 
 </html>
