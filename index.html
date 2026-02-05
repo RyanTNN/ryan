@@ -163,47 +163,7 @@
 <!-- <html lang="id" data-bs-theme="auto"> ['auto', 'dark', 'light'] -->
 
 <body data-audio="./assets/music/ngaydautien.mp3" data-confetti="true" data-time="2026-02-25 10:00:00">
-    <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyvuboIMXcgegTTTngnnUcSE-O7YjX7dsSGdzwIKyD2NSQaCCo-t2gW6GlbCOvssBvT/exec';
 
-        // 1. Hàm gửi bình luận
-        async function guiBinhLuan() {
-            const name = document.getElementById('form-name').value;
-            const presence = document.getElementById('form-presence').value;
-            const comment = document.getElementById('form-comment').value;
-
-            if (!name || !comment) return alert("Vui lòng điền đủ thông tin!");
-
-            await fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: new URLSearchParams({ name, presence, comment })
-            });
-
-            alert("Gửi thành công!");
-            location.reload(); // Load lại để hiện bình luận mới
-        }
-
-        // 2. Hàm lấy và hiển thị bình luận
-        async function hienThiBinhLuan() {
-            const response = await fetch(scriptURL);
-            const data = await response.json();
-            const container = document.getElementById('comments'); // ID vùng chứa bình luận của bạn
-            
-            let html = '';
-            data.forEach(item => {
-                html += `
-                    <div class="comment-item border-bottom p-2 mb-2">
-                        <strong>${item.name}</strong> <small>(${item.presence})</small>
-                        <p class="mb-0">${item.comment}</p>
-                    </div>`;
-            });
-            container.innerHTML = html;
-        }
-
-        // Chạy hàm hiển thị khi vừa mở trang
-        window.onload = hienThiBinhLuan;
-    </script>
     <!-- Root Invitation -->
     <div class="row m-0 p-0 opacity-0" id="root">
 
@@ -744,13 +704,8 @@ Trân trọng kính mời bạn đến dự lễ cưới của chúng mình</p>
 
                             <div class="d-none mb-3" id="gif-form-default"></div>
 
-                            <!-- <div class="d-grid">
-                                <button class="btn btn-primary btn-sm rounded-4 shadow m-1" onclick="undangan.comment.send(this)" data-offline-disabled="false">
-                                    <i class="fa-solid fa-paper-plane me-2"></i>Send
-                                </button>
-                            </div> -->
                             <div class="d-grid">
-                                <button type="button" class="btn btn-primary btn-sm rounded-4 shadow m-1" onclick="guiBinhLuan()" data-offline-disabled="false">
+                                <button class="btn btn-primary btn-sm rounded-4 shadow m-1" onclick="undangan.comment.send(this)" data-offline-disabled="false">
                                     <i class="fa-solid fa-paper-plane me-2"></i>Send
                                 </button>
                             </div>
