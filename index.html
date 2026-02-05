@@ -43,11 +43,36 @@
     /* Nhúng font chữ lãng mạn không lỗi tiếng Việt */
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
-.ten-cap-doi {
-    font-family: 'Great Vibes', cursive;
-    font-size: 40px;
-    color: #ffffff; /* Màu trắng */
-}
+    .ten-cap-doi {
+        font-family: 'Great Vibes', cursive;
+        font-size: 40px;
+        /* Tạo hiệu ứng dải màu vàng kim loại */
+        background: linear-gradient(
+            to right,
+            #f9bdbd,
+            #ffffff,
+            #f9bdbd,
+            #ffffff,
+            #f9bdbd
+        );
+        
+        /* Ép dải màu vào bên trong chữ */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        
+        /* Tạo độ nổi khối cho chữ */
+        filter: drop-shadow(2px 2px 3px rgba(255, 0, 0, 0.429));
+        
+        display: inline-block;
+    }
+
+    /* Hiệu ứng lấp lánh nhẹ khi khách cuộn trang */
+    .gold-text:hover {
+        filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 145, 145, 0.662));
+        transition: 0.3s;
+    }
 </style>
 
 <head>
@@ -85,8 +110,8 @@
     <meta name="color-scheme" content="dark light">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="canonical" href="https://ulems.my.id/">
-    <link rel="icon" type="image/png" sizes="192x192" href="./assets/images/icon-192x192.webp">
-    <link rel="apple-touch-icon" sizes="192x192" href="./assets/images/icon-192x192.webp">
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/images/logo.webp">
+    <link rel="apple-touch-icon" sizes="192x192" href="./assets/images/logo.webp">
 
     <!-- Preconnect CDN -->
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
