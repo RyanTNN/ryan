@@ -2,77 +2,40 @@
 <html lang="id" data-bs-theme="auto">
 
 <style>
-    /* Nhúng font chữ lãng mạn không lỗi tiếng Việt */
-    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+    /* Nhúng Font */
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap');
 
-    .gold-text {
-        font-family: 'Dancing Script', cursive !important;
+    .gold-text, .ten-cap-doi {
         font-weight: 700;
         line-height: 1.6;
+        display: inline-block;
         
-        /* Tạo hiệu ứng dải màu vàng kim loại */
+        /* Sử dụng biến màu để tự động thay đổi */
         background: linear-gradient(
             to right,
-            #f9bdbd,
-            #ffffff,
-            #f9bdbd,
-            #ffffff,
-            #f9bdbd
+            var(--gold-start),
+            var(--gold-mid),
+            var(--gold-start),
+            var(--gold-mid),
+            var(--gold-start)
         );
         
-        /* Ép dải màu vào bên trong chữ */
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         color: transparent;
         
-        /* Tạo độ nổi khối cho chữ */
-        filter: drop-shadow(2px 2px 3px rgba(255, 0, 0, 0.3));
-        
-        display: inline-block;
+        /* Shadow cũng thay đổi theo chế độ */
+        filter: drop-shadow(2px 2px 3px var(--gold-shadow));
+        transition: all 0.5s ease; /* Hiệu ứng chuyển màu mượt mà */
     }
 
-    /* Hiệu ứng lấp lánh nhẹ khi khách cuộn trang */
-    .gold-text:hover {
-        filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 145, 145, 0.5));
-        transition: 0.3s;
-    }
-</style>
+    .gold-text { font-family: 'Dancing Script', cursive !important; }
+    .ten-cap-doi { font-family: 'Great Vibes', cursive; }
 
-<style>
-    /* Nhúng font chữ lãng mạn không lỗi tiếng Việt */
-    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-
-    .ten-cap-doi {
-        font-family: 'Great Vibes', cursive;
-        font-weight: 700;
-        line-height: 1.6;
-        /* Tạo hiệu ứng dải màu vàng kim loại */
-        background: linear-gradient(
-            to right,
-            #f9bdbd,
-            #ffffff,
-            #f9bdbd,
-            #ffffff,
-            #f9bdbd
-        );
-        
-        /* Ép dải màu vào bên trong chữ */
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        
-        /* Tạo độ nổi khối cho chữ */
-        filter: drop-shadow(2px 2px 3px rgba(255, 0, 0, 0.429));
-        
-        display: inline-block;
-    }
-
-    /* Hiệu ứng lấp lánh nhẹ khi khách cuộn trang */
-    .gold-text:hover {
-        filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 145, 145, 0.662));
-        transition: 0.3s;
+    /* Hiệu ứng Hover */
+    .gold-text:hover, .ten-cap-doi:hover {
+        filter: brightness(1.2);
     }
 </style>
 
@@ -90,8 +53,8 @@
     <meta name="title" content="Wedding Invitation">
     <meta name="description" content="Wedding Invitation">
     <meta name="keywords" content="thu moi cuoi">
-    <meta property="og:title" content="Wedding Invitation">
-    <meta property="og:description" content="Wedding Invitation">
+    <meta property="og:title" content="Wedding Ngọc Thái & Vân Anh">
+    <meta property="og:description" content="Wedding Ngọc Thái & Vân Anh">
     <meta property="og:keywords" content="thu moi cuoi">
     <meta property="og:image" content="./assets/images/Anh2 (33).webp">
     <meta property="og:image:secure_url" content="./assets/images/Anh2 (33).webp">
@@ -112,7 +75,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="canonical" href="https://ulems.my.id/">
     <link rel="icon" type="image/png" sizes="192x192" href="./assets/images/logo.webp">
-    <link rel="apple-touch-icon" sizes="192x192" href="./assets/images/logo.webp">
+    <link rel="apple-touch-icon" sizes="192x192" href="./assets/images/Anh2 (33).webp">
 
     <!-- Preconnect CDN -->
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
